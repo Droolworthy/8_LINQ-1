@@ -36,7 +36,7 @@ namespace LINQ1
 
                 if (userInput == commandStartProgram)
                 {
-                    string firstMessage = "Введите вес преступника:";
+                    string firstMessage = "Введите вес преступника: ";
 
                     int weight = GetNumberFromUser(out string weightCriminal, firstMessage);
 
@@ -70,7 +70,7 @@ namespace LINQ1
 
             while (isWork)
             {
-                Console.WriteLine(messege);
+                Console.Write(messege);
                 userInput = Console.ReadLine();
 
                 if (int.TryParse(userInput, out int number))
