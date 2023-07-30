@@ -40,9 +40,9 @@ namespace LINQ1
 
                     int weight = GetNumberFromUser(out string weightCriminal, firstMessage);
 
-                    string messege2 = "Введите рост преступника: ";
+                    string lastMessage = "Введите рост преступника: ";
 
-                    int height = GetNumberFromUser(out string heightCriminal, messege2);
+                    int height = GetNumberFromUser(out string heightCriminal, lastMessage);
 
                     Console.Write("Введите национальность преступника: ");
                     string nationalityCriminal = Console.ReadLine().ToLower();
