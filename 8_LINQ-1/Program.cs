@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace LINQ1
 {
     internal class Program
@@ -40,15 +36,13 @@ namespace LINQ1
 
                 if (userInput == commandStartProgram)
                 {
-                    Console.Write("\nВведите вес преступника: ");
-                    string weightCriminal = Console.ReadLine();
+                    string firstMessage = "Введите вес преступника:";
 
-                    int weight = GetNumberFromUser(weightCriminal);
+                    int weight = GetNumberFromUser(out string weightCriminal, firstMessage);
 
-                    Console.Write("Введите рост преступника: ");
-                    string heightCriminal = Console.ReadLine();
+                    string messege2 = "Введите рост преступника: ";
 
-                    int height = GetNumberFromUser(heightCriminal);
+                    int height = GetNumberFromUser(out string heightCriminal, messege2);
 
                     Console.Write("Введите национальность преступника: ");
                     string nationalityCriminal = Console.ReadLine().ToLower();
@@ -70,12 +64,26 @@ namespace LINQ1
             }
         }
 
-        private int GetNumberFromUser(string userInput) 
+        private int GetNumberFromUser(out string userInput, string messege)
         {
-            if (int.TryParse(userInput, out int number))
+            bool isWork = true;
+
+            while (isWork)
             {
-                return number;
+                Console.WriteLine(messege);
+                userInput = Console.ReadLine();
+
+                if (int.TryParse(userInput, out int number))
+                {
+                    return number;
+                }
+                else
+                {
+                    Console.WriteLine("Ошибка ввода. Попробуйте ещё раз.");
+                }
             }
+
+            userInput = null;
 
             return 0;
         }
