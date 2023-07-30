@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +6,7 @@ namespace LINQ1
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Database database = new Database();
 
@@ -68,14 +68,14 @@ namespace LINQ1
             string heightCriminal = Console.ReadLine();
 
             Console.Write("Введите национальность преступника: ");
-            string nationalityCriminal = Console.ReadLine();
+            string nationalityCriminal = Console.ReadLine().ToLower();
 
             if (int.TryParse(weightCriminal, out int weight))
             {
                 if (int.TryParse(heightCriminal, out int height))
                 {
                     var filteredCriminals = _criminals.Where(criminal => criminal.Weight ==
-                    weight).Where(criminal => criminal.Height == height).Where(criminal => criminal.Nationality == 
+                    weight).Where(criminal => criminal.Height == height).Where(criminal => criminal.Nationality.ToLower() == 
                     nationalityCriminal).Where(criminal => criminal.IsIncarcerated == true);
 
                     ShowInfoCriminals(filteredCriminals);
