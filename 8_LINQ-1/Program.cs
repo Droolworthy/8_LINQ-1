@@ -18,37 +18,48 @@ namespace LINQ1
     {
         private readonly List<Criminal> _criminals = new List<Criminal>();
         private readonly Random _random = new Random();
-        private readonly string[] _fullName = new string[] { "Петров Петр Петрович", "Иванов Иван Иванович", "Гусева Екатерина Сергеевна", "Кузнецова Анна Денисовна",
-            "Орехов Дмитрий Викторович", "Королёв Николай Сергеевич", "Малышев Илья Николаевич", "Целиков Павел Михайлович", "Фролов Дмитрий Алексеевич",
-        "Галкин Илья Михайлович", "Толиков Иван Иванович", "Смирнов Владимир Сергеевич", "Сироткина Алина Сергеевна", "Соколов Дмитрий Викторович"};
-        private readonly string[] _nationality = new string[] { "Русский", "Американец" };
-        private readonly int[] _weight = new int[] { 60, 70, 80 };
-        private readonly int[] _height = new int[] { 160, 170, 180 };
 
         public Database()
         {
             CreateCriminals();
-        }        
+        }
 
         public void Work()
         {
             bool isWork = true;
 
-            string commandStartTheProgram = "1";
+            string commandStartProgram = "1";
             string commandExit = "2";
 
-            Console.WriteLine($"Запустить программу - {commandStartTheProgram} \nВыйти из программы - {commandExit}");
+            Console.WriteLine($"Запустить программу - {commandStartProgram} \nВыйти из программы - {commandExit}");
 
             while (isWork)
             {
                 Console.Write("\nВвод: ");
                 string userInput = Console.ReadLine();
 
-                if(userInput == commandStartTheProgram)
+                if (userInput == commandStartProgram)
                 {
-                    StartTheProgram();
+                    Console.Write("\nВведите вес преступника: ");
+                    string weightCriminal = Console.ReadLine();
+
+                    int weight = GetNumberFromUser(weightCriminal);
+
+                    Console.Write("Введите рост преступника: ");
+                    string heightCriminal = Console.ReadLine();
+
+                    int height = GetNumberFromUser(heightCriminal);
+
+                    Console.Write("Введите национальность преступника: ");
+                    string nationalityCriminal = Console.ReadLine().ToLower();
+
+                    var filteredCriminals = _criminals.Where(criminal => criminal.Weight ==
+                    weight).Where(criminal => criminal.Height == height).Where(criminal => criminal.Nationality.ToLower() ==
+                    nationalityCriminal).Where(criminal => criminal.IsIncarcerated == true);
+
+                    ShowInfoCriminals(filteredCriminals);
                 }
-                else if(userInput == commandExit)
+                else if (userInput == commandExit)
                 {
                     isWork = false;
                 }
@@ -59,28 +70,14 @@ namespace LINQ1
             }
         }
 
-        private void StartTheProgram()
+        private int GetNumberFromUser(string userInput) 
         {
-            Console.Write("\nВведите вес преступника: ");
-            string weightCriminal = Console.ReadLine();
-
-            Console.Write("Введите рост преступника: ");
-            string heightCriminal = Console.ReadLine();
-
-            Console.Write("Введите национальность преступника: ");
-            string nationalityCriminal = Console.ReadLine().ToLower();
-
-            if (int.TryParse(weightCriminal, out int weight))
+            if (int.TryParse(userInput, out int number))
             {
-                if (int.TryParse(heightCriminal, out int height))
-                {
-                    var filteredCriminals = _criminals.Where(criminal => criminal.Weight ==
-                    weight).Where(criminal => criminal.Height == height).Where(criminal => criminal.Nationality.ToLower() == 
-                    nationalityCriminal).Where(criminal => criminal.IsIncarcerated == true);
-
-                    ShowInfoCriminals(filteredCriminals);
-                }
+                return number;
             }
+
+            return 0;
         }
 
         private void CreateCriminals()
@@ -104,19 +101,26 @@ namespace LINQ1
 
         private Criminal GetCriminal()
         {
+            string[] fullName = new string[] { "Петров Петр Петрович", "Иванов Иван Иванович", "Гусева Екатерина Сергеевна", "Кузнецова Анна Денисовна",
+            "Орехов Дмитрий Викторович", "Королёв Николай Сергеевич", "Малышев Илья Николаевич", "Целиков Павел Михайлович", "Фролов Дмитрий Алексеевич",
+        "Галкин Илья Михайлович", "Толиков Иван Иванович", "Смирнов Владимир Сергеевич", "Сироткина Алина Сергеевна", "Соколов Дмитрий Викторович"};
+            string[] nationality = new string[] { "Русский", "Американец" };
+
+            int[] weight = new int[] { 60, 70, 80 };
+            int[] height = new int[] { 160, 170, 180 };
             int minimumRandomNumber = 1;
             int maximumRandomNumber = 2;
 
             bool isIncarcerated = _random.Next(maximumRandomNumber) == minimumRandomNumber;
 
-            return new Criminal(_fullName[_random.Next(_fullName.Length)], _nationality[_random.Next(_nationality.Length)], isIncarcerated,
-                _weight[_random.Next(_weight.Length)], _height[_random.Next(_height.Length)]);
-        }     
+            return new Criminal(fullName[_random.Next(fullName.Length)], nationality[_random.Next(nationality.Length)], isIncarcerated,
+                weight[_random.Next(weight.Length)], height[_random.Next(height.Length)]);
+        }
     }
 
     class Criminal
     {
-        public Criminal(string completeName, string origin, bool isImprisoned, int mass, int growth) 
+        public Criminal(string completeName, string origin, bool isImprisoned, int mass, int growth)
         {
             FullName = completeName;
             Nationality = origin;
