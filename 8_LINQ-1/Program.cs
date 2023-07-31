@@ -47,9 +47,8 @@ namespace LINQ1
                     Console.Write("Введите национальность преступника: ");
                     string nationalityCriminal = Console.ReadLine().ToLower();
 
-                    var filteredCriminals = _criminals.Where(criminal => criminal.Weight ==
-                    weight).Where(criminal => criminal.Height == height).Where(criminal => criminal.Nationality.ToLower() ==
-                    nationalityCriminal).Where(criminal => criminal.IsIncarcerated == true);
+                    var filteredCriminals = _criminals.Where(criminal => criminal.Weight == weight && criminal.Height 
+                    == height && criminal.Nationality.ToLower() == nationalityCriminal && criminal.IsIncarcerated == false);
 
                     ShowInfoCriminals(filteredCriminals);
                 }
@@ -102,7 +101,7 @@ namespace LINQ1
         {
             foreach (var criminal in filteredCriminals)
             {
-                Console.WriteLine($"ФИО - {criminal.FullName}, Рост - {criminal.Height}" +
+                Console.WriteLine($"\nФИО - {criminal.FullName}, Рост - {criminal.Height}" +
                   $", Вес - {criminal.Weight}, Национальность - {criminal.Nationality}.");
             }
         }
@@ -138,13 +137,9 @@ namespace LINQ1
         }
 
         public string FullName { get; private set; }
-
         public string Nationality { get; private set; }
-
         public bool IsIncarcerated { get; private set; }
-
         public int Weight { get; private set; }
-
         public int Height { get; private set; }
     }
 }
